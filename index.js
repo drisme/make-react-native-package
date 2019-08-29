@@ -24,8 +24,8 @@ Handlebars.registerHelper({ pascalCase, paramCase, camelCase, packageCase, rando
 const sections = [
   {
     header: 'Usage',
-    content: '$ make-react-native-package <{bold --packageName} {underline name}> ' +
-      '<{bold --githubUsername} {underline user}> ...'
+    content: '$ make-react-native-package <{bold --packageName} {underline name}> '
+    //  '<{bold --githubUsername} {underline user}> ...'
   },
   {
     header: 'Required options',
@@ -35,11 +35,11 @@ const sections = [
         alias: 'p',
         description: 'The name of project folder, github repo and npm package.'
       },
-      {
-        name: 'githubUsername',
-        alias: 'g',
-        description: 'Your github username.'
-      }
+      // {
+      //   name: 'githubUsername',
+      //   alias: 'g',
+      //   description: 'Your github username.'
+      // }
     ]
   },
   {
@@ -107,7 +107,7 @@ const sections = [
     content: [
       '$ make-react-native-package ' +
       '{bold --packageName} {underline react-native-cool-component}',
-      '{hidden   }{bold --githubUsername} {underline octocat} ' +
+      //'{hidden   }{bold --githubUsername} {underline octocat} ' +
       '{bold --appName} {underline CoolExample} ' +
       '{bold --objcPrefix} {underline RNCC}',
       '{hidden   }{bold --description} {underline "Cool description"} ' +
@@ -121,7 +121,7 @@ const usage = commandLineUsage(sections)
 
 const optionDefinitions = [
   { name: 'packageName', alias: 'p', type: String },
-  { name: 'githubUsername', alias: 'g', type: String },
+  //{ name: 'githubUsername', alias: 'g', type: String },
   { name: 'appName', alias: 'a', type: String },
   { name: 'objcPrefix', alias: 'o', type: String },
   { name: 'components', alias: 'c', type: String, multiple: true },
@@ -136,7 +136,7 @@ const optionDefinitions = [
 
 const {
   packageName,
-  githubUsername,
+  //githubUsername,
   appName,
   objcPrefix,
   components,
@@ -159,21 +159,21 @@ if (packageName === undefined) {
   process.exit(1)
 }
 
-if (githubUsername === undefined) {
-  console.log('\nERROR: Skipped required `githubUsername` option!\n', usage)
-  process.exit(1)
-}
+// if (githubUsername === undefined) {
+//   console.log('\nERROR: Skipped required `githubUsername` option!\n', usage)
+//   process.exit(1)
+// }
 
 const packageMap = {
   packageName,
-  githubUsername,
+  //githubUsername,
   appName: pascalCase(appName || `${packageName}Example`),
   objcPrefix: objcPrefix
     ? objcPrefix.toUpperCase()
     : pascalCase(packageName).replace(/[^A-Z]/g, ''),
   description: description || 'Yet another react-native package',
   email: email ? ` <${email}>` : '',
-  npmUsername: npmUsername || githubUsername,
+  npmUsername: npmUsername || '',
   components: [
     ...new Set(components || (modules ? [] : [pascalCase(packageName).replace('ReactNative', '')]))
   ],
@@ -220,7 +220,7 @@ const copyOptions = (map) => ({
 
 const packagePath = `${process.cwd()}/${packageMap.packageName}`
 const androidSourcesPath = `${packagePath}/android/src/main/kotlin/` +
-  `${packageCase(packageMap.githubUsername)}/${packageCase(packageMap.packageName)}`
+  `${packageCase(packageMap.packageName)}`
 const iosSourcesPath = `${packagePath}/ios`
 const typescriptSourcesPath = `${packagePath}/src`
 
